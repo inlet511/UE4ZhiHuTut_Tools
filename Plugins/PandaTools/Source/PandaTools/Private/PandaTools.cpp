@@ -8,6 +8,7 @@
 #include "Widgets/Layout/SBox.h"
 #include "Widgets/Text/STextBlock.h"
 #include "Framework/MultiBox/MultiBoxBuilder.h"
+#include "WidgetDemo.h"
 
 static const FName PandaToolsTabName("PandaTools");
 
@@ -96,8 +97,7 @@ TSharedRef<SDockTab> FPandaToolsModule::OnSpawnPluginTab(const FSpawnTabArgs& Sp
 			.HAlign(HAlign_Center)
 			.VAlign(VAlign_Center)
 			[
-				SNew(STextBlock)
-				.Text(WidgetText)
+				SNew(SWidgetDemo)				
 			]
 		];
 }

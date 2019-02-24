@@ -1,6 +1,7 @@
 #pragma once
 #include "SEditableTextBox.h"
 
+class SButton;
 
 DECLARE_DELEGATE_TwoParams(FTestDelegate, FString, FString);
 
