@@ -10,6 +10,7 @@
 #include "Framework/MultiBox/MultiBoxBuilder.h"
 #include "WidgetDemo.h"
 #include "RoadTool.h"
+#include "FoliageFarmer.h"
 
 static const FName PandaToolsTabName("PandaTools");
 
@@ -98,7 +99,7 @@ TSharedRef<SDockTab> FPandaToolsModule::OnSpawnPluginTab(const FSpawnTabArgs& Sp
 			.HAlign(HAlign_Center)
 			.VAlign(VAlign_Center)
 			[
-				SNew(SRoadTool)
+				SNew(SFoliageFarmer)
 			]
 		];
 }
