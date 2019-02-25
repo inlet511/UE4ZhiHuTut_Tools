@@ -3,6 +3,7 @@
 
 #include "LevelEditorActions.h"
 #include "Engine/Selection.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 #define LOCTEXT_NAMESPACE "SWidgetdemo"
 
@@ -18,13 +19,37 @@ void SWidgetDemo::Construct(const FArguments& InArgs)
 
 void SWidgetDemo::OnMyTest(FString usn, FString pwd)
 {
-	FLevelEditorActionCallbacks::SnapObjectToView_Clicked();
+	//FLevelEditorActionCallbacks::SnapObjectToView_Clicked();
 	for (FSelectionIterator It(GEditor->GetSelectedActorIterator()); It; ++It)
 	{
 		AActor* Actor = Cast<AActor>(*It);
 		Actor->Modify();
-		Actor->Destroy();
+		FHitResult OutHit;
+		RayTracingHit(Actor->GetActorLocation(), FVector(0, 0, -1), 10000.0f, OutHit, Actor);
+		FVector HitPointLoc = OutHit.Location + OutHit.ImpactNormal * 0.1f;
+		Actor->SetActorLocation(HitPointLoc);
 	}
+}
+
+bool SWidgetDemo::RayTracingHit(FVector RayOrigin, FVector RayDirection, float RayMarchingLength, FHitResult& OutHitResult, AActor* OperatedActor)
+{
+	const TArray<AActor*> IgnoredActor;
+	FVector startPos = RayOrigin;
+	FVector endPos = RayOrigin + RayDirection * RayMarchingLength;
+	return UKismetSystemLibrary::LineTraceSingle(
+		OperatedActor,
+		startPos,
+		endPos,
+		ETraceTypeQuery::TraceTypeQuery1,
+		false,
+		IgnoredActor,
+		EDrawDebugTrace::None,
+		OutHitResult,
+		true,
+		FLinearColor::Blue,
+		FLinearColor::Red,
+		1.0f
+	);
 }
 
 #undef LOCTEXT_NAMESPACE
