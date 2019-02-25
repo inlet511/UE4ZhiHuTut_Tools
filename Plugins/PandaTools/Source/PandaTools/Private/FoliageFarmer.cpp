@@ -4,6 +4,7 @@
 #include "Widgets/Layout/SBorder.h"
 #include "Widgets/Text/STextBlock.h"
 #include "Modules/ModuleManager.h"
+#include "EdGraph/EdGraphSchema.h"
 
 
 void SFoliageFarmer::Construct(const FArguments& InArgs)
@@ -22,22 +23,38 @@ void SFoliageFarmer::Construct(const FArguments& InArgs)
 	//ÉèÖÃObject
     ConfigPanel->SetObject(UMyClass::StaticClass()->GetDefaultObject(true), true); 
 
+	GraphObj = NewObject<UEdGraph>();
+	GraphObj->Schema = UEdGraphSchema::StaticClass();
+	GraphObj->AddToRoot();
+	GraphEditorPtr = SNew(SGraphEditor).GraphToEdit(GraphObj);
+
     ChildSlot 
     [
         SNew(SVerticalBox)
         +SVerticalBox::Slot()
         .AutoHeight()
         [
-            SNew(SBox)
-            .WidthOverride(300)
-            .MinDesiredWidth(300)
-            .MaxDesiredWidth(300)
-            [
-                SNew(SBorder)
-                [
-                    ConfigPanel.ToSharedRef()
-                ]
-            ]
+			SNew(SHorizontalBox)
+			+SHorizontalBox::Slot()
+			.AutoWidth()
+			[
+				SNew(SBox)
+				.WidthOverride(300)
+				.MinDesiredWidth(300)
+				.MaxDesiredWidth(300)
+				[
+					SNew(SBorder)
+					[
+						ConfigPanel.ToSharedRef()
+					]
+				]
+			]
+			+ SHorizontalBox::Slot()
+			.HAlign(HAlign_Fill)
+			.VAlign(VAlign_Fill)
+			[
+				GraphEditorPtr->AsShared()
+			]            
         ]
     ];
 }

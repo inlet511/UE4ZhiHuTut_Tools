@@ -7,6 +7,8 @@
 #include "Engine/EngineTypes.h"
 #include "Widgets/SCompoundWidget.h"
 #include "Widgets/DeclarativeSyntaxSupport.h"
+#include "EdGraph/EdGraph.h"
+#include "GraphEditor.h"
 #include "FoliageFarmer.generated.h"
 
 DECLARE_DELEGATE(FSFoligeFarmerBackToMainUI);
@@ -23,6 +25,10 @@ public:
 
     void Construct(const FArguments& InArgs);
     TSharedPtr<IDetailsView> ConfigPanel;
+
+private:
+	UEdGraph* GraphObj;
+	TSharedPtr<SGraphEditor> GraphEditorPtr;
 };
 
 class FMyCustomization:public IDetailCustomization
