@@ -11,6 +11,7 @@ void SWidgetDemo::Construct(const FArguments& InArgs)
 	ChildSlot
 		.HAlign(HAlign_Left)
 		[
+			//构造SEventTest的时候，把函数指针传进其构造函数
 			SNew(SEventTest).OnStartTest(this, &SWidgetDemo::OnMyTest)
 		];
 }

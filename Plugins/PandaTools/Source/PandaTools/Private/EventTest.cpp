@@ -9,6 +9,7 @@
 
 void SEventTest::Construct(const FArguments& InArgs)
 {
+	//_OnStartTest是在SEventTest在构造时传入的函数指针
 	OnTestDelegate = InArgs._OnStartTest;
 	ChildSlot
 		[
@@ -34,6 +35,7 @@ void SEventTest::Construct(const FArguments& InArgs)
 					.WidthOverride(150.0f)
 					[
 						SAssignNew(TestButtonPtr, SButton)
+						//按钮被点击时，执行OnTestButtonClicked
 						.OnClicked(this, &SEventTest::OnTestButtonClicked)
 						.Text(LOCTEXT("Login", "SnapCameraButton"))
 					]
@@ -62,6 +64,7 @@ FReply SEventTest::OnTestButtonClicked()
 	//FString usn = TestTextOnePtr->GetText().ToString();
 	//FString pwd = TestTextTwoPtr->GetText().ToString();
 
+	//执行在构建时传入的函数指针
 	OnTestDelegate.ExecuteIfBound(TEXT("aa"), TEXT("bb"));
 	return FReply::Handled();
 }
