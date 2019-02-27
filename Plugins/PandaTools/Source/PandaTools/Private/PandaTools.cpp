@@ -11,6 +11,7 @@
 #include "WidgetDemo.h"
 #include "RoadTool.h"
 #include "FoliageFarmer.h"
+#include "PropertyEditorModule.h"
 
 static const FName PandaToolsTabName("PandaTools");
 
@@ -85,6 +86,10 @@ void FPandaToolsModule::ShutdownModule()
 
 TSharedRef<SDockTab> FPandaToolsModule::OnSpawnPluginTab(const FSpawnTabArgs& SpawnTabArgs)
 {
+	//注册自定义Details面板内容
+	FPropertyEditorModule& PropertyModule = FModuleManager::LoadModuleChecked<FPropertyEditorModule>("PropertyEditor");
+	PropertyModule.RegisterCustomClassLayout("MyClass", FOnGetDetailCustomizationInstance::CreateStatic(&FMyCustomization::MakeInstance));
+
 	FText WidgetText = FText::Format(
 		LOCTEXT("WindowWidgetText", "Add code to {0} in {1} to override this window's contents"),
 		FText::FromString(TEXT("FPandaToolsModule::OnSpawnPluginTab")),

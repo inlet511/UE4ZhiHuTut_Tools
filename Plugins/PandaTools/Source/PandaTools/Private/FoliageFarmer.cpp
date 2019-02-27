@@ -18,7 +18,7 @@ void SFoliageFarmer::Construct(const FArguments& InArgs)
     ConfigPanel=PropertyModule.CreateDetailView(DetailsViewArgs); 
 
 	//ÉèÖÃRootObjectCustomizationInstance
-	ConfigPanel->SetRootObjectCustomizationInstance(MakeShareable(new FRootObjectCustomization));
+	//ConfigPanel->SetRootObjectCustomizationInstance(MakeShareable(new FRootObjectCustomization));
 
 	//ÉèÖÃObject
     ConfigPanel->SetObject(UMyClass::StaticClass()->GetDefaultObject(true), true); 
@@ -78,8 +78,6 @@ void FMyCustomization::CustomizeDetails(IDetailLayoutBuilder& DetailBuilder)
 	// This is where the core of the customization code will go.
 	IDetailCategoryBuilder& Cat = DetailBuilder.EditCategory(TEXT("TestFloat"));
 
-	TArray< TWeakObjectPtr< UObject > > Objects;
-	DetailBuilder.GetObjectsBeingCustomized(Objects);
 
 	//TWeakObjectPtr< AMyClass > MyObject = Cast< AMyClass >(Objects[0].Get());
 

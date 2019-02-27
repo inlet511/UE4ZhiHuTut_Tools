@@ -39,17 +39,6 @@ public:
     static TSharedRef<IDetailCustomization> MakeInstance();
 };
 
-class FRootObjectCustomization:public IDetailRootObjectCustomization 
-{
-public:
-    /**IDetailRootObjectCustomization interface */
-    virtual TSharedPtr<SWidget> CustomizeObjectHeader(const UObject* InRootObject) override
-    {
-        return SNullWidget::NullWidget; 
-    }
-    virtual bool IsObjectVisible(const UObject* InRootobject) const override { return true;}
-    virtual bool ShouldDisplayHeader(const UObject* InRootobject) const override {return false;}
-};
 
 UCLASS()
 class UMyClass:public UObject 
