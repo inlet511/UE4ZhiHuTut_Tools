@@ -42,7 +42,8 @@ public class PopCorn : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore",
-                "PropertyEditor"
+                "PropertyEditor",
+                "EditorStyle"
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);

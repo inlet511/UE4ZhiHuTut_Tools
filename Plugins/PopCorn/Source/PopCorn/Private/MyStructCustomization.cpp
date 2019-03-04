@@ -3,6 +3,7 @@
 #include "DetailWidgetRow.h"
 #include "DetailLayoutBuilder.h"
 #include "Widgets/Text/STextBlock.h"
+#include "IDetailChildrenBuilder.h"
 
 #define LOCTEXT_NAMESPACE "MyStructCustomization"
 
@@ -13,39 +14,48 @@ TSharedRef<IPropertyTypeCustomization> FMyStructCustomization::MakeInstance()
 
 void FMyStructCustomization::CustomizeHeader(TSharedRef<class IPropertyHandle> StructPropertyHandle, class FDetailWidgetRow& HeaderRow, IPropertyTypeCustomizationUtils& StructCustomizationUtils)
 {
-	//uint32 NumChildren;
-	//StructPropertyHandle->GetNumChildren(NumChildren);
+	uint32 NumChildren;
+	StructPropertyHandle->GetNumChildren(NumChildren);
 
-	//for (uint32 ChildIndex = 0; ChildIndex < NumChildren; ++ChildIndex)
-	//{
-	//	const TSharedRef< IPropertyHandle > ChildHandle = StructPropertyHandle->GetChildHandle(ChildIndex).ToSharedRef();
+	for (uint32 ChildIndex = 0; ChildIndex < NumChildren; ++ChildIndex)
+	{
+		const TSharedRef< IPropertyHandle > ChildHandle = StructPropertyHandle->GetChildHandle(ChildIndex).ToSharedRef();
 
-	//	if (ChildHandle->GetProperty()->GetName() == TEXT("SomeUProperty"))
-	//	{
-	//		SomeUPropertyHandle = ChildHandle;
-	//	}
-	//}
+		if (ChildHandle->GetProperty()->GetName() == TEXT("SomeUProperty"))
+		{
+			SomeUPropertyHandle = ChildHandle;
+		}
+	}
 
-	//check(SomeUPropertyHandle.IsValid());
+	check(SomeUPropertyHandle.IsValid());
 
 
-	//HeaderRow
-	//	.NameContent()
-	//	[
-	//		StructPropertyHandle->CreatePropertyNameWidget(LOCTEXT("Name","New property header name"), LOCTEXT("Name", "New property Tooltip"))
-	//	]
-	//	.ValueContent()
-	//	.MinDesiredWidth(500)
-	//	[
-	//		SNew(STextBlock)
-	//		.Text(LOCTEXT("Extra info", "Some new representation"))
-	//		.Font(IDetailLayoutBuilder::GetDetailFont())
-	//	];
+	HeaderRow
+		.NameContent()
+		[
+			StructPropertyHandle->CreatePropertyNameWidget(LOCTEXT("Name", "New property header name"), LOCTEXT("Name", "New property Tooltip"))
+		]
+		.ValueContent()
+		.MinDesiredWidth(500)
+		[
+			SNew(STextBlock)
+			.Text(LOCTEXT("Extra info", "Some new representation"))
+			.Font(IDetailLayoutBuilder::GetDetailFont())
+		];
 }
 
 void FMyStructCustomization::CustomizeChildren(TSharedRef<class IPropertyHandle> StructPropertyHandle, class IDetailChildrenBuilder& StructBuilder, IPropertyTypeCustomizationUtils& StructCustomizationUtils)
 {
-
+	uint32 NumChildren = 0;
+	StructPropertyHandle->GetNumChildren(NumChildren);
+	for (uint32 Index = 0; Index < NumChildren; ++Index)
+	{
+		TSharedRef<IPropertyHandle> Child = StructPropertyHandle->GetChildHandle(Index).ToSharedRef();
+		if (Child->GetProperty())
+		{
+			StructBuilder.AddProperty(Child);
+		}
+	}
 }
 
 #undef LOCTEXT_NAMESPACE

@@ -4,6 +4,7 @@
 #include "MyStruct.h"
 #include "Modules/ModuleManager.h"
 #include "PropertyEditorModule.h"
+#include "IStructureDetailsView.h"
 
 #define LOCTEXT_NAMESPACE "PopUI"
 
@@ -14,19 +15,33 @@ void SPopUI::Construct(const FArguments& InArgs)
 	FDetailsViewArgs DetailsViewArgs(false, false, true, FDetailsViewArgs::HideNameArea, true);
 
 	//创建了一个新的Details面板
-	ConfigPanel = PropertyModule.CreateStructureDetailView(DetailsViewArgs);
-
-	FMyStruct MyFirstStruct;
+	TSharedRef<IStructureDetailsView> ConfigPanel = PropertyModule.CreateStructureDetailView(DetailsViewArgs, FStructureDetailsViewArgs(),nullptr);
+	
+	structData = MakeShared<FStructOnScope>(FMyStruct::StaticStruct());
 
 	//设置Object
-	ConfigPanel->SetObject(MyFirstStruct);
+	ConfigPanel->SetStructureData(structData.ToSharedRef());
+
+	TSharedPtr<SWidget> DetailsWidget = ConfigPanel->GetWidget();
 
 	ChildSlot
 		[
-			SNew(SBorder)
+			SNew(SHorizontalBox)
+			+SHorizontalBox::Slot()
+			.HAlign(HAlign_Fill)
 			[
-				ConfigPanel.ToSharedRef()
+				SNew(SButton)
 			]
+			+SHorizontalBox::Slot()
+			.HAlign(HAlign_Fill)
+			[
+				DetailsWidget.ToSharedRef()
+			]
+			+ SHorizontalBox::Slot()
+				.HAlign(HAlign_Fill)
+				[
+					SNew(SButton)
+				]
 		];
 }
 

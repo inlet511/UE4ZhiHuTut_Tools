@@ -1,6 +1,7 @@
 #pragma once
 #include "CoreMinimal.h"
 #include "Widgets/SCompoundWidget.h"
+#include "Widgets/DeclarativeSyntaxSupport.h"
 
 class SPopUI :public SCompoundWidget
 {
@@ -9,5 +10,6 @@ public:
 	SLATE_END_ARGS()
 
 	void Construct(const FArguments& InArgs);
-	TSharedPtr<IDetailsView> ConfigPanel;
+	
+	TSharedPtr<class FStructOnScope> structData;
 };
